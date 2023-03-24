@@ -278,7 +278,6 @@ mseValues = str2num(fgetl(fid));
 mseValues = reshape(mseValues,arraySize);
 fclose(fid);
 
-
 fid = fopen('N_rays.txt');
 arraySize = str2num(fgetl(fid));
 raysUsedPerSample = str2num(fgetl(fid));

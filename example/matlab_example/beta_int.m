@@ -42,7 +42,7 @@ h = const.h;
 N_1percent = const.N1per;
 
 % extracting the "pump" constants
-I_pump = int_field.I; %W/cm²
+I_pump = int_field.I; %W/cmï¿½
 tau_pump = int_field.T;
 wavelength = int_field.wavelength; %m
 
@@ -127,3 +127,4 @@ for itime=1:steps_time
     
 end
 
+end 

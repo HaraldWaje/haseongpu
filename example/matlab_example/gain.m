@@ -46,9 +46,9 @@ steps.crys = 300;
 % and absorption cross sections as well for the input spectrum
 
 % pump
-pump.s_abs = 0.76e-20; % absorption cross section in cm² (0.778e-20 pour DA)
-pump.s_ems = 0.220e-20; % emission cross section in cm²(0.195e-20 pour DA)
-pump.I = 10e3; % Pump intensity in W/cm²
+pump.s_abs = 0.76e-20; % absorption cross section in cmï¿½ (0.778e-20 pour DA)
+pump.s_ems = 0.220e-20; % emission cross section in cmï¿½(0.195e-20 pour DA)
+pump.I = 10e3; % Pump intensity in W/cmï¿½
 pump.T = 1e-3; % pump duration in s
 pump.wavelength = 940e-9;% pump wavelength in m
 

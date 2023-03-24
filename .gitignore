@@ -77,3 +77,4 @@ talk/*.spl
 talk/*.nav
 talk/*.snm
 talk/*.~lock.*
+.vscode/*

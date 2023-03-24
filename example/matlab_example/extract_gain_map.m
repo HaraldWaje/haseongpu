@@ -115,12 +115,12 @@ for i_s=1:timeslices_tot
 
         % energy_pulse = trapz(grid_t_ex,pulse);
         % energy_pulse_round(iroundtrips+1,1)=energy_pulse;
-    %     pulse_round(:,iroundtrips)=pulse(:);
+        % pulse_round(:,iroundtrips)=pulse(:);
         % after each pass he sees some losses e.g. 5%
         % now make the losses, but be carefull - the position changes the energy
         % output!!!
         % pulse(:)=pulse(:).*mode.R_ex;
-    %     end
+        % end
         % integration yields the energy density, this has to be multiplied with the
         % "average" surface of the pumped area
         % energy_density.after = trapz(grid_z,beta_crystal_l.*Ntot_gradient)*(h*c/pump.wavelength);

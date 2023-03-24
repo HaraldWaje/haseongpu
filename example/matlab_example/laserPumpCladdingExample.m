@@ -55,9 +55,9 @@ steps.crys = crystal.levels;
 pump_stretch = 1;
 pump_aspect = 1;
 pump_diameter = 3;
-pump.s_abs = 0.778e-20;                % Absorption cross section in cm² (0.778e-20 pour DA)
-pump.s_ems = 0.195e-20;                % Emission cross section in cm²(0.195e-20 pour DA)
-pump.I = 16e3;                         % Pump intensity in W/cm²
+pump.s_abs = 0.778e-20;                % Absorption cross section in cmï¿½ (0.778e-20 pour DA)
+pump.s_ems = 0.195e-20;                % Emission cross section in cmï¿½(0.195e-20 pour DA)
+pump.I = 16e3;                         % Pump intensity in W/cmï¿½
 pump.T = 1e-3;                         % Pump duration in s
 pump.wavelength = 940e-9;              % Pump wavelength in m
 pump.ry = pump_diameter/2*pump_aspect;
@@ -228,7 +228,7 @@ for i_slice=1:timeslice_tot-1
     % pumping to get the temporal evolution of the beta
     % make a rectangular field, make the interpolation of the points on it
     % if we don't have any formula discribing the intensity distribution
-    % as first test do a supergaussian distribution for 1µs and then estimate
+    % as first test do a supergaussian distribution for 1ï¿½s and then estimate
     % the dndt|pump
     
     % Write output for this timeslice to file
