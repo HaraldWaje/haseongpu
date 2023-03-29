@@ -41,7 +41,7 @@ from scipy.io import savemat
 def set_variables(p, t):
     # calculate the index of the neighbor cells
     length_t = len(t)
-    ordered = np.zeros((length_t, 3))
+    ordered = np.zeros((length_t, 3), dtype= int)
 
     # now search the cells which have two of the three points in common
     for i_point in range(length_t):
@@ -53,82 +53,81 @@ def set_variables(p, t):
             if (t[i_test, 0] == point_1) or (t[i_test, 1] == point_1) or (t[i_test, 2] == point_1):
                 if (t[i_test, 0] == point_2) or (t[i_test, 1] == point_2) or (t[i_test, 2] == point_2):
                     if i_test != i_point:
-                        ordered[i_point, 0] = i_test
+                        # +1 for compatability with prior matlab based version
+                        ordered[i_point, 0] = i_test+1
                 if (t[i_test, 0] == point_3) or (t[i_test, 1] == point_3) or (t[i_test, 2] == point_3):
                     if i_test != i_point:
-                        ordered[i_point, 1] = i_test
+                        ordered[i_point, 1] = i_test+1
             if (t[i_test, 0] == point_3) or (t[i_test, 1] == point_3) or (t[i_test, 2] == point_3):
-                if (t(i_test,1)==point_2) or (t(i_test,2)==point_2) or (t(i_test,3)==point_2):
+                if (t[i_test,0]==point_2) or (t[i_test,1]==point_2) or (t[i_test,2]==point_2):
                     if (i_test != i_point):
-                        ordered[i_point,2] = i_test
+                        ordered[i_point,2] = i_test+1
 
     # make a list with the forbidden faces of the triangles
     # these are faces, which are connecting faces between the triangles,
     # meaning: face a of triangle n is face c of triangle l
     # remember the definition: face 1: p1-2, face 2: p1-3, face 3: p2-3
-    forbidden = np.zeros((length_t, 3))  #TODO maybe use elif in loops to minimize time? 
-    for i_point in range(length_t):     
-        face_1 = ordered[i_point, 0]
-        if (face_1 == 0):
-            forbidden[i_point, 0] = 0
-            continue
-        
-        if (ordered[face_1, 1] == i_point):
-            forbidden[i_point, 0] = 1
+    forbidden = np.zeros((length_t, 3), dtype= int) 
+    for i_point in range(length_t):
+        # -1 for compatability with priot matlab based version 
+        face_1 = ordered[i_point, 0]-1
+        if (face_1 == -1):
+            forbidden[i_point, 0] = -1
+        else: 
 
-        if (ordered[face_1, 2] == i_point):
-            forbidden[i_point, 0] = 2
+            if (ordered[face_1, 0] == i_point+1):  
+                forbidden[i_point, 0] = 0
 
-        if (ordered[face_1, 3] == i_point):
-            forbidden[i_point, 0] = 3
+            if (ordered[face_1, 1] == i_point+1):
+                forbidden[i_point, 0] = 1
+
+            if (ordered[face_1, 2] == i_point+1):
+                forbidden[i_point, 0] = 2
 
     for i_point in range(length_t):
-        face_2 = ordered[i_point, 2]
-        if (face_2==0):
-            forbidden[i_point, 1] = 0
-            continue
+        face_2 = ordered[i_point, 1]-1
+        if (face_2== -1):
+            forbidden[i_point, 1] = -1
+        else: 
 
-        if (ordered[face_2, 1]==i_point):
-            forbidden[i_point-1, 1] = 1
+            if (ordered[face_2, 0]==i_point+1):
+                forbidden[i_point-1, 1] = 0
 
-        if (ordered[face_2, 2]==i_point):
-            forbidden[i_point-1, 1] = 2
+            if (ordered[face_2, 1]==i_point+1):
+                forbidden[i_point-1, 1] = 1
 
-        if (ordered[face_2, 1]==i_point):
-            forbidden[i_point-1, 1] = 3
+            if (ordered[face_2, 2]==i_point+1):
+                forbidden[i_point-1, 1] = 2
             
     for i_point in range(length_t):
-        face_3 = ordered[i_point, 3]
-        if (face_3 == 0):
-            forbidden[i_point, 3] = 0
-            continue
+        face_3 = ordered[i_point, 2]-1
+        if (face_3 == -1):
+            forbidden[i_point, 2] = -1
+        else: 
 
-        if (ordered[face_3, 1]==i_point):
-            forbidden[i_point,3]=1
+            if (ordered[face_3, 0]==i_point+1):
+                forbidden[i_point,2]=0
 
-        if (ordered[face_3, 2]==i_point):
-            forbidden[i_point,3]=2
+            if (ordered[face_3, 1]==i_point+1):
+                forbidden[i_point,2]=1
 
-        if (ordered[face_3, 3]==i_point):
-            forbidden[i_point,3]=3
+            if (ordered[face_3, 2]==i_point+1):
+                forbidden[i_point,2]=2
 
 
         # calculate the centers of the triangles via barycentric coordinates
-        center_vec = [1/3, 1/3, 1/3]
+        center_vec = np.array([1/3, 1/3, 1/3])
 
-        x_center = np.zeros(length_t,1)
-        y_center = np.zeros(length_t,1)
+        x_center = np.zeros(length_t)
+        y_center = np.zeros(length_t)
 
     for i_points in range(length_t):
-
-        Px = [p[t[i_points,0], 0], p[t[i_points,1], 0], p[t[i_points,2], 0]]
-        Py = [p[t[i_points,0], 1], p[t[i_points,1], 1], p[t[i_points,2], 1]]
         
-        x_center[i_points,0]=Px*center_vec
-        y_center[i_points,1]=Py*center_vec 
+        Px = [p[t[i_points, 0], 0], p[t[i_points, 1], 0], p[t[i_points, 2], 0]]
+        Py = [p[t[i_points, 0], 1], p[t[i_points, 1], 1], p[t[i_points, 2], 1]]
 
-        x_center[i_points,0] = np.dot(Px, center_vec)
-        y_center[i_points,0] = np.dot(Py, center_vec)
+        x_center[i_points] = np.dot(Px, center_vec)
+        y_center[i_points] = np.dot(Py, center_vec)
     # # now plot it
     # hold on
     # trimesh(t,p(:,1),p(:,2),zeros(size(p,1),1))
@@ -137,11 +136,11 @@ def set_variables(p, t):
     # hold off
 
         # calculate the normal vectors of the different combinations and give a vector with one of the points
-    normals_x = np.zeros(length_t,3)
-    normals_y = np.zeros(length_t,3)
-    normals_z = np.zeros(length_t,3)
+    normals_x = np.zeros((length_t,3))
+    normals_y = np.zeros((length_t,3))
+    normals_z = np.zeros((length_t,3))
 
-    normals_p = np.zeros(length_t,3)
+    normals_p = np.zeros((length_t,3))
 
     for i_points in range (length_t): 
         #     normals to points 1-2
@@ -174,7 +173,7 @@ def set_variables(p, t):
         normals_x[i_points, 2] = vec_cross[0]
         normals_y[i_points, 2] = vec_cross[1]
         normals_z[i_points, 2] = vec_cross[2]
-        normals_p[i_points, 2] = t[i_points, 1]
+        normals_p[i_points, 2] = t[i_points,0]
 
 
     # # 2d interpolation of the new points in the grid
@@ -188,7 +187,7 @@ def set_variables(p, t):
     # # plot(interpolated-3*x_center(:,1))
 
     # calculate the surface of the triangles
-    surface = np.zeros(len(t),1)
+    surface = np.zeros((len(t),1))
 
     # Compute the surface area for each triangle
     for i_point in range(len(t)):
@@ -203,13 +202,14 @@ def set_variables(p, t):
     t_int = t.astype(np.int32) 
     ordered_int = ordered.astype(np.int32)
     normals_p = normals_p.astype(np.int32)
-    forbidden = forbidden.astype(np.int32) #TODO Check if conversion and -1 can be done at once
+    forbidden = forbidden.astype(np.int32)
 
     # Update the normals_p, t_int, orderedint, and forbidden arrays
-    normals_p -= 1
-    t_int -= 1
+    #TODO Check if this code is necessary
+    #normals_p -= 1
+    #t_int -= 1
     ordered_int -= 1
-    forbidden -= 1
+    #forbidden -= 1
 
     # Save the variables to a MAT file
     savefile = 'variable.mat'
@@ -223,3 +223,4 @@ def set_variables(p, t):
                     'surface': surface,
                     'normals_p': normals_p,
                     'forbidden': forbidden})
+    

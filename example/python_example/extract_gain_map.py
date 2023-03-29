@@ -68,9 +68,9 @@ for i_s in range(timeslices_tot):
     time_step = pump["T"] / (steps["time"] - 1)
     crystal_step = crystal["length"] / (steps["crys"] - 1)
     
-    gainmap = np.zeros((len(p), 1))
+    gainmap = np.zeros((p.shape[0], 1))
 
-    for i_p in range(len(p)):
+    for i_p in range(p.shape[0]):
 
         beta_crystal[1,:] = beta_cell[i_p,:]
 

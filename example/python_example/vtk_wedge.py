@@ -26,9 +26,9 @@ import numpy as np
 def vtk_wedge(file_n, phi_ASE, p, t_int, mesh_z, z_mesh):
     
     # open a file
-    filename = file_n
+    filename = file_n[0]
 
-    with open(filename, 'wt') as fid: 
+    with open(filename, 'w') as fid: 
 
         # newline character
         nl = '\n'
@@ -42,12 +42,12 @@ def vtk_wedge(file_n, phi_ASE, p, t_int, mesh_z, z_mesh):
 
         # now write the data-coordinates
         # create the cells with the z-coordinates at first, then horizontally concatenate
-        h = np.zeros((len(p), 1))
+        height = np.zeros((p.shape[0], 1))
         # first level is at zero level
-        h = z_mesh
+        height[:] = z_mesh
 
         for i_z in range(mesh_z):
-            v = np.hstack((p, (h * (i_z - 1))))
+            v = np.hstack((p, (height * (i_z - 1))))
             for i_v in range(size_p):
                 fid.write('{0:f} {1:f} {2:f}'.format(v[i_v, 0], v[i_v, 1], v[i_v, 2]) + nl)
 
