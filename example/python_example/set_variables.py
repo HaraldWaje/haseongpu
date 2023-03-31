@@ -142,9 +142,9 @@ def set_variables(p, t):
 
     normals_p = np.zeros((length_t,3))
 
-    for i_points in range (length_t): 
+    for i_points in range (length_t):
+        # TODO check if calculation for p makes sense 
         #     normals to points 1-2
-
         vec_1 = np.array([p[t[i_points,0], 0], p[t[i_points,0], 1], 0]) - np.array([p[t[i_points,1], 0], p[t[i_points,1], 1], 0])
         vec_2 = np.array([p[t[i_points,0], 0], p[t[i_points,0], 1], 0]) - np.array([p[t[i_points,0], 0], p[t[i_points,0], 1], 0.1])
         vec_cross = np.cross(vec_1, vec_2)
@@ -173,7 +173,7 @@ def set_variables(p, t):
         normals_x[i_points, 2] = vec_cross[0]
         normals_y[i_points, 2] = vec_cross[1]
         normals_z[i_points, 2] = vec_cross[2]
-        normals_p[i_points, 2] = t[i_points,0]
+        normals_p[i_points, 2] = t[i_points,1]
 
 
     # # 2d interpolation of the new points in the grid

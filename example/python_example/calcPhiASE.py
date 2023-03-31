@@ -145,6 +145,7 @@ def create_calcPhiASE_input (points,
       f.write(str(a) + '\n')
 
     with open('nTot.txt','w') as f:
+      nTot= float(nTot)
       f.write(str(nTot) + '\n')
 
     #with open('betaVolume.txt','w') as f:
@@ -161,11 +162,11 @@ def create_calcPhiASE_input (points,
     
     #with open('lambdaA.txt','w') as f:
     #  f.write('\n'.join(map(str, laserParameter['l_abs'])))
-    np.savetxt('lambdaA.txt', laserParameter['l_abs'], delimiter='\n', fmt='%d')
+    np.savetxt('lambdaA.txt', laserParameter['l_abs'], delimiter='\n', fmt='%.50f')
 
     #with open('lambdaE.txt','w') as f:
     #  f.write('\n'.join(map(str, laserParameter['l_ems'])))
-    np.savetxt('lambdaE.txt', laserParameter['l_ems'], delimiter='\n', fmt='%d')
+    np.savetxt('lambdaE.txt', laserParameter['l_ems'], delimiter='\n', fmt='%.50f')
 
     with open('crystalTFluo.txt','w') as f:
       f.write(str(crystal['tfluo']) + '\n')

@@ -24,7 +24,7 @@
 #                   Daniel Albach       2008/03/24 
 import numpy as np
 
-def beta_int(beta_crystal,pulse,const,crystal,steps,int_field,mode, Ntot_gradient):
+def beta_int(beta_crystal,pulse,phy_const,crystal,steps,int_field,mode, Ntot_gradient):
 
     # declarations
     int_field['max_ems, i = np.max(int_field.s_ems), np.argmax(int_field.s_ems)']
@@ -37,9 +37,9 @@ def beta_int(beta_crystal,pulse,const,crystal,steps,int_field,mode, Ntot_gradien
     steps_crystal = steps['crys']
 
     # extracting the constants
-    c = const['c']
-    h = const['h']
-    N_1percent = const.N1per
+    c = phy_const['c']
+    h = phy_const['h']
+    N_1percent = phy_const['N1per']
 
     # extracting the "pump" constants
     I_pump = int_field['I'] #W/cm�
