@@ -98,7 +98,7 @@ def beta_int(beta_crystal,pulse,phy_const,crystal,steps,int_field,mode, Ntot_gra
                 for jcrys in range(steps_crystal-1):
         #           step one is from point one to two for I_pump
                     beta_average = (beta_crystal[jcrys]+beta_crystal[jcrys+1])/2
-                    pump_BRM[jcrys+1] = pump_BRM[jcrys] * np.exp(-(sigma_abs - beta_average*(sigma_abs+sigma_ems))*Ntot_gradient[jcrys]*crystal_step)    
+                    pump_BRM[jcrys+1] = pump_BRM[jcrys] * np.exp(-(sigma_abs - beta_average*(sigma_abs+sigma_ems))*Ntot_gradient[jcrys]*crystal_step)
 
         #         now turn the second pumppart and the beta again
                 pump_BRM = np.rot90(pump_BRM,2)

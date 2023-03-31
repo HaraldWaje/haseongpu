@@ -155,7 +155,7 @@ forbidden=variable_data['forbidden']
 
 beta_cell = np.zeros((p.shape[0], mesh_z))
 beta_vol = np.zeros((t.shape[0], mesh_z-1))
-nT, b = ordered_int.shape                
+nT = ordered_int.shape[0]             
 reflectivities = np.zeros((1, nT*2))
 
 # initialize arrays
@@ -180,7 +180,7 @@ beta_c_2 = np.zeros((p.shape[0], mesh_z))
 intensity = pump['I']
 
 for i_p in range(p.shape[0]):
-    beta_crystal = beta_cell[i_p, :]
+    beta_crystal = np.copy(beta_cell[i_p, :])
     pulse = np.zeros((steps['time'], 1))
     pump['I'] = intensity * np.exp(-np.sqrt(p[i_p, 0]**2/pump['ry']**2 + p[i_p, 1]**2/pump['rx']**2)**pump['exp'])
     beta_crystal, beta_store, pulse, Ntot_gradient = beta_int3(beta_crystal, pulse, phy_const, crystal, steps, pump, mode, Ntot_gradient)
