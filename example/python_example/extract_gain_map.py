@@ -72,7 +72,7 @@ for i_s in range(timeslices_tot):
 
     for i_p in range(p.shape[0]):
 
-        beta_crystal[1,:] = beta_cell[i_p,:]
+        beta_crystal[1,:] = beta_cell[i_p,:] # dangerous creation of reference? 
 
         laser['I'] = 1
 

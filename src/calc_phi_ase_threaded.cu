@@ -136,7 +136,9 @@ pthread_t calcPhiAseThreaded( const unsigned minRaysPerSample,
 
 void joinAll(std::vector<pthread_t> threadIds){
   for(unsigned i = 0; i < threadIds.size(); ++i){
+	dout(V_INFO) << "join thread " << i << "/" << threads.size() << std::endl;
     pthread_join(threadIds[i], NULL);
+	dout(V_INFO) << "leave thread " << i<< std::endl;
   }
 
 }

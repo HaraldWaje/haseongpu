@@ -289,7 +289,7 @@ for i_slice in range(1, timeslice_tot):
         pts= np.array([x, y, z])
         ges= np.array([xi,yi,zi]) 
 
-        beta_vol[:,i_z] = griddata((x,y,z), v, (xi,yi,zi))
+        beta_vol[:,i_z] = griddata((x,y,z), v, (xi,yi,zi), method= 'linear')
         #beta_vol[:,i_z] = griddata(pts, v, ges)
 
         z = z + z_mesh

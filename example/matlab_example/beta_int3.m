@@ -145,4 +145,3 @@ for itime=1:steps_time
     beta_store(:,itime)=beta_crystal(:);
     
 end
-

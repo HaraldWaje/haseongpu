@@ -106,7 +106,7 @@ def beta_int3(beta_crystal, pulse, const, crystal, steps, int_field, mode, Ntot_
         if mode['BRM']== 1:
             beta_crystal = np.flipud(beta_crystal)
             
-            pump_BRM[1] = pump[-1]*mode['R']
+            pump_BRM[0] = pump[-1]*mode['R']
             Ntot_gradient = np.flipud(Ntot_gradient)
         
     #   this is the negative direction
@@ -121,12 +121,12 @@ def beta_int3(beta_crystal, pulse, const, crystal, steps, int_field, mode, Ntot_
     #         full pump intensity is I+ + I-
             Ntot_gradient = np.flipud(Ntot_gradient)
     #         in the case of BRM the return value has to be I-!
-            pulse[itime]=pump_BRM[1]
+            pulse[itime]=pump_BRM[0]
         else:
             pulse[itime] = pump_l[icrys+1]
             
         pump_l = pump + pump_BRM
-            
+
         #   now calculate the local beta
         for ibeta in range(steps_crystal):
             A1 = sigma_abs*pump_l[ibeta]/(h*c/wavelength)
@@ -135,7 +135,6 @@ def beta_int3(beta_crystal, pulse, const, crystal, steps, int_field, mode, Ntot_
             beta_crystal[ibeta] = A1/C1*(1-np.exp(-C1*time_step))+ beta_crystal[ibeta]*np.exp(-C1*time_step)
         
         #     if icrys or jcrys makes no difference
-            
         beta_store[:,itime]=beta_crystal
 
     return([beta_crystal,beta_store,pulse,Ntot_gradient])

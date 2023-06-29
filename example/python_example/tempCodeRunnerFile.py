@@ -1,0 +1,1 @@
+            pump[icrys + 1] = pump[icrys] * np.exp(-(sigma_abs - beta_average * (sigma_abs + sigma_ems)) * Ntot_gradient[icrys] * crystal_step)

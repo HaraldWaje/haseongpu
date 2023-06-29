@@ -127,7 +127,7 @@ int main(int argc, char **argv){
   if(fileToVector(inputPath + "lambdaE.txt", &lambdaE)) return 1;
   lambdaResolution = std::max(lambdaResolution, (unsigned) lambdaA.size());
   lambdaResolution = std::max(lambdaResolution, (unsigned) lambdaE.size());
-  
+  dout(V_INFO) << "line 130" << std::endl;
   assert(sigmaA.size() == lambdaA.size());
   assert(sigmaE.size() == lambdaE.size());
 
@@ -160,12 +160,12 @@ int main(int argc, char **argv){
   // Run Experiment
   std::vector<pthread_t> threadIds(maxGpus, 0);
   std::vector<float> runtimes(maxGpus, 0);
-
+  dout(V_INFO) << "line 163" << std::endl;
   switch(deviceMode){
     case NO_DEVICE_MODE:
       dout(V_ERROR) << "No valid device-mode!" << std::endl;
       exit(1);
-
+dout(V_INFO) << "line 168" << std::endl;
     case CPU_DEVICE_MODE: //Possibly deprecated!
       // TODO: make available for MPI?
       runtime = forLoopsClad( &dndtAse,
@@ -182,7 +182,7 @@ int main(int argc, char **argv){
           meshs[0].crystalTFluo);
       runmode = "CPU Mode single threaded";
       break;
-
+dout(V_INFO) << "line 185" << std::endl;
     case GPU_DEVICE_MODE:
       switch(parallelMode){
         // TODO: Replace completly by MPI
@@ -192,7 +192,7 @@ int main(int argc, char **argv){
             const float samplePerGpu = samplesPerNode / (float) maxGpus;
             unsigned minSample_i = gpu_i * samplePerGpu;
             unsigned maxSample_i = min((float)samplesPerNode, (gpu_i + 1) * samplePerGpu);
-
+dout(V_INFO) << "line 195" << std::endl;
             minSample_i += minSampleRange;
             maxSample_i += minSampleRange; 
 
@@ -212,16 +212,22 @@ int main(int argc, char **argv){
                 maxSample_i,
                 runtimes.at(gpu_i)
                 );
+
           }
+
+
           joinAll(threadIds);
+          dout(V_INFO) << "line 185" << std::endl;
           usedGpus = maxGpus;
+          dout(V_INFO) << "line 185" << std::endl;
           for(std::vector<float>::iterator it = runtimes.begin(); it != runtimes.end(); ++it){
             runtime = max(*it, runtime);
           }
+          dout(V_INFO) << "line 185" << std::endl;
           cudaDeviceReset();      
           runmode="GPU mode Threaded";
           break;
-
+dout(V_INFO) << "line 224" << std::endl;
         case MPI_PARALLEL_MODE:
           usedGpus = calcPhiAseMPI( minRaysPerSample,
               maxRaysPerSample,
@@ -245,7 +251,7 @@ int main(int argc, char **argv){
       }
 
   }
-
+dout(V_INFO) << "line 248" << std::endl;
 
   // Print Solution
   if(verbosity & V_DEBUG){
@@ -259,7 +265,7 @@ int main(int argc, char **argv){
       if(sample_i >= 10) break;
     }
   }
-
+dout(V_INFO) << "line 262" << std::endl;
   // Write experiment data
   // output folder has to be the same as TMP_FOLDER in the calling MatLab script
   writeMatlabOutput(outputPath,
